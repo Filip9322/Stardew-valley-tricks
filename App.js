@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button, TextInput, FlatList } from 'react-native';
+import GoalItem from './components/GoalItem';
 
 export default function App() {
   const [ enteredGoal, setEnteredGoal ] = useState('');
@@ -29,11 +30,7 @@ export default function App() {
       </View>
       <FlatList
        data={courseGoals}
-       renderItem={ itemData => (
-         <View>
-           <Text>{ itemData.item.key } { itemData.item.value }</Text>
-         </View>
-         )}
+       renderItem={ itemData => <GoalItem title={ itemData.item.value }/>}
       />
     </View>
   );
