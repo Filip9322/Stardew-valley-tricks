@@ -6,11 +6,16 @@ import GoalInput from './components/GoalInput';
 export default function App() {
   const [ courseGoals, setCourseGoals ] = useState([]);
 
-  const addGoalHandler   = goalTitle => {
+  const addGoalHandler = goalTitle => {
     //setCourseGoals([...courseGoals, enteredGoal]);
     setCourseGoals( currentGoals => [...currentGoals,
-        { key: Math.random().toString(), value: goalTitle }]
+        { id: Math.random().toString(), value: goalTitle }]
     );
+  }
+  const removeGoalHandler = goalID => {
+    setCourseGoals( currentGoals => {
+      return currentGoals.filter((goal) => goal.id !== goalID );
+    });
   }
 
   return (
@@ -18,8 +23,15 @@ export default function App() {
       <Text>Stardew Valley Tricks and Calculator</Text>
       <GoalInput onAddGoal={addGoalHandler} />
       <FlatList
+       keyExtractor={(item,index) => item.id }
        data={courseGoals}
-       renderItem={ itemData => <GoalItem onDelete={() => console.log('touchable')} title={ itemData.item.value }/>}
+       renderItem={ itemData =>
+         <GoalItem
+           id = { itemData.item.id }
+           onDelete = { removeGoalHandler }
+           title = { itemData.item.value }
+         />
+       }
       />
     </View>
   );
