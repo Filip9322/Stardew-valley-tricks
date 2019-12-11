@@ -1,33 +1,22 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button, TextInput, FlatList } from 'react-native';
-import GoalItem from './components/GoalItem';
+import GoalItem  from './components/GoalItem';
+import GoalInput from './components/GoalInput';
 
 export default function App() {
-  const [ enteredGoal, setEnteredGoal ] = useState('');
   const [ courseGoals, setCourseGoals ] = useState([]);
 
-  const goalInputHandler = (enteredText) =>{
-    setEnteredGoal(enteredText);
-  }
-  const addGoalHandler   = () => {
+  const addGoalHandler   = goalTitle => {
     //setCourseGoals([...courseGoals, enteredGoal]);
     setCourseGoals( currentGoals => [...currentGoals,
-        { key: Math.random().toString(), value: enteredGoal }]
+        { key: Math.random().toString(), value: goalTitle }]
     );
   }
 
   return (
     <View style={ styles.screen }>
       <Text>Stardew Valley Tricks and Calculator</Text>
-      <View style={ styles.contRow }>
-        <TextInput
-          placeholder="Set Goal..."
-          style={ styles.txtInput }
-          onChangeText= { goalInputHandler }
-          value = { enteredGoal }
-        />
-        <Button style={ styles.bt } title="ADD" onPress={ addGoalHandler } />
-      </View>
+      <GoalInput onAddGoal={addGoalHandler} />
       <FlatList
        data={courseGoals}
        renderItem={ itemData => <GoalItem title={ itemData.item.value }/>}
@@ -37,10 +26,5 @@ export default function App() {
 }
 
 const styles  = StyleSheet.create({
-  contRow : { flexDirection: 'row' , alignItems: 'flex-end'},
-  screen  : { padding: 30 },
-  txtInput: { borderBottomWidth: 1, borderBottomColor: 'black',
-              padding: 10, width: '80%'
-            },
-  bt      : { padding:'10 0' }
+  screen  : { padding: 30 }
 });
